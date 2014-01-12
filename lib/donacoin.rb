@@ -1,6 +1,7 @@
 module Donacoin
 end
 
+require_relative "utils"
 require_relative "miner"
 require_relative "ui"
 

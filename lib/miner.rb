@@ -10,17 +10,14 @@ class Miner
     Thread.abort_on_exception
       
 
-
-    # osx
-    #
-    #puts `#{PATH}/vendor/cpuminer/bin/minerd_osx64 #{@@pool}`
-
-    # windows
-    #
-    path = File.expand_path "../../../../", __FILE__
-    path = path[5..-1]
-    puts path
-    cmd = "#{path}/windows_32/minerd.exe #{@@pool}"
+    cmd = if Utils.os == :osx
+      "#{PATH}/vendor/cpuminer/bin/minerd_osx64 #{@@pool}"
+    elsif Utils.os == :windows
+      path = File.expand_path "../../../../", __FILE__
+      path = path[5..-1]
+      puts path
+      "#{path}/windows_32/minerd.exe #{@@pool}"
+    end        
     
     Thread.new {
       IO.popen(cmd) do |f|
@@ -33,8 +30,12 @@ class Miner
 
   def stop
     puts "stopping"    
-    #puts `killall minerd_osx64`
-    puts `taskkill /IM minerd.exe /F`
+    if Utils.os == :osx
+      puts `killall minerd_osx64`
+    elsif Utils.os == :windows
+      puts `taskkill /IM minerd.exe /F`
+    end    
+    
   end
 
 end

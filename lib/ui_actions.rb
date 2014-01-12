@@ -2,14 +2,14 @@ module UIActions
   
   def start(type, event)
     puts "starting..."
-    @start_btn.disable
-    @stop_btn.enable
+    @start_btn.enabled = false
+    @stop_btn.enabled = true
     @miner.start
   end
 
   def stop(type, event)
-    @start_btn.enable
-    @stop_btn.disable
+    @start_btn.enabled = true
+    @stop_btn.enabled = false
     @miner.stop
   end
 

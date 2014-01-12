@@ -23,7 +23,7 @@ class Donacoin::UI
       
       c.start = @start_btn = JButton.new "Start"
       c.stop  = @stop_btn = JButton.new "Stop"
-      @stop_btn.disable
+      @stop_btn.enabled = false
 
       # interactions      
       i.start = { action: method(:start) }
