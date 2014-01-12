@@ -17,7 +17,7 @@ Warbler::Config.new do |config|
   # config.includes = FileList["db"]
 
   # Additional files/directories to exclude
-  # config.excludes = FileList["lib/tasks/*"]
+  config.excludes = FileList["vendor/bin/windows_*"]
 
   # Additional Java .jar files to include.  Note that if .jar files are placed
   # in lib (and not otherwise excluded) then they need not be mentioned here.
@@ -49,7 +49,7 @@ Warbler::Config.new do |config|
   # so that they can be packaged in the archive.
   # For Rails applications, the Rails gems are included by default
   # unless the vendor/rails directory is present.
-  config.gems += ["profligacy", "ftools", "mechanize"]
+  config.gems += ["profligacy", "ftools"]
   # config.gems += ["activerecord-jdbcmysql-adapter", "jruby-openssl"]
   # config.gems << "tzinfo"
 
@@ -79,7 +79,7 @@ Warbler::Config.new do |config|
 
   # Name of the archive (without the extension). Defaults to the basename
   # of the project directory.
-  # config.jar_name = "mywar"
+  config.jar_name = "donacoin"
 
   # Name of the MANIFEST.MF template for the war file. Defaults to a simple
   # MANIFEST.MF that contains the version of Warbler used to create the war file.

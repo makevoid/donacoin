@@ -20,9 +20,10 @@ class Donacoin::UI
     "
     @ui = Swing::LEL.new(JFrame, layout) do |c, i| # c: component, i: interaction
       # components
-      c.start = JButton.new "Start"
-      c.stop  = JButton.new "Stop"
-
+      
+      c.start = @start_btn = JButton.new "Start"
+      c.stop  = @stop_btn = JButton.new "Stop"
+      @stop_btn.disable
 
       # interactions      
       i.start = { action: method(:start) }
@@ -32,10 +33,13 @@ class Donacoin::UI
     @ui.build(args: WINDOW_TITLE).default_close_operation = JFrame::EXIT_ON_CLOSE
 
     puts "launched ui"
+
+
+    @miner = nil
     Thread.new {
       @miner = Miner.new
     }
-    @miner.start
+    # @miner.start - test only on osx
   end
 
   

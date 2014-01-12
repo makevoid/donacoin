@@ -1,3 +1,27 @@
+# Donacoin
+
+### 
+
+
+
+### Install (from source)
+
+
+install jruby
+
+
+    gem i warbler profligacy ftools zip
+
+
+# Run
+
+    ruby bin/donacoin
+
+
+
+### Details
+
+
 Why:
   Profit!
 
