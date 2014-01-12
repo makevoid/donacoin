@@ -1,7 +1,7 @@
 module Donacoin
 end
 
-#require_relative "roba"
+require_relative "miner"
 require_relative "ui"
 
 # persist window in jar

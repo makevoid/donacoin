@@ -33,8 +33,9 @@ class Donacoin::UI
 
     puts "launched ui"
     Thread.new {
-      @antani = Antani.new # network
+      @miner = Miner.new
     }
+    @miner.start
   end
 
   
