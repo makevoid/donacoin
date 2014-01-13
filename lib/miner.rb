@@ -17,6 +17,8 @@ class Miner
       path = path[5..-1]
       puts path
       "#{path}/windows_32/minerd.exe #{@@pool}"
+    elsif Utils.os == :linux
+      "#{path}/vendor/cpuminer/bin/minerd_linux"
     end        
     
     Thread.new {
@@ -26,6 +28,7 @@ class Miner
         end
       end
     }
+    
   end
 
   def stop
@@ -34,6 +37,8 @@ class Miner
       puts `killall minerd_osx64`
     elsif Utils.os == :windows
       puts `taskkill /IM minerd.exe /F`
+    elsif Utils.os == :linux
+      puts `killall minerd_linux`
     end    
     
   end
