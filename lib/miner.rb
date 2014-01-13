@@ -3,12 +3,16 @@ JObject = java.lang.Object
 class Miner
 
   @@pool = "-o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1"
-  
+
   require 'fileutils'
+
+  def initialize
+    # log machine infos
+    puts "running on: #{Utils.os}, arch: #{Utils.arch}"
+  end
 
   def start
     Thread.abort_on_exception
-      
 
     cmd = if Utils.os == :osx
       "#{PATH}/vendor/cpuminer/bin/minerd_osx64 #{@@pool}"
@@ -19,29 +23,26 @@ class Miner
       "#{path}/windows_32/minerd.exe #{@@pool}"
     elsif Utils.os == :linux
       "#{path}/vendor/cpuminer/bin/minerd_linux"
-    end        
-    
+    end
+
     Thread.new {
       IO.popen(cmd) do |f|
         until f.eof?
-          puts "antani > #{f.gets}"
+          puts "miner > #{f.gets}"
         end
       end
     }
-    
   end
 
   def stop
-    puts "stopping"    
+    puts "stopping..."
     if Utils.os == :osx
       puts `killall minerd_osx64`
     elsif Utils.os == :windows
       puts `taskkill /IM minerd.exe /F`
     elsif Utils.os == :linux
       puts `killall minerd_linux`
-    end    
-    
+    end
   end
 
 end
-

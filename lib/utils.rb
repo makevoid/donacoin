@@ -20,4 +20,12 @@ class Utils
     )
   end
 
+  def self.arch
+    @@arch ||= if RbConfig::CONFIG['host_cpu'] == "x86_64"
+      64
+    else
+      32
+    end
+  end
+
 end
