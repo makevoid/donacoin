@@ -31,7 +31,8 @@ class Donacoin::UI
     @ui.build(args: WINDOW_TITLE).default_close_operation = JFrame::EXIT_ON_CLOSE
 
     puts "launched ui"
-
+  
+    Tray.new
 
     @miner = nil
     Thread.new {
