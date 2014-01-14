@@ -9,7 +9,9 @@ class Tray
   import java.awt.event.ActionListener
   
   def initialize
-    tray = SystemTray.getSystemTray  
+    image = Toolkit.getDefaultToolkit.getImage "#{PATH}/icon.png"
+    
+    tray = java.awt.SystemTray.getSystemTray  
     puts tray
   end
   

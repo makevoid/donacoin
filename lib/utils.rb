@@ -42,13 +42,13 @@ class Utils
       cores = 2 # default core numbers
       string = case os
       when :windows
-        exec `WMIC CPU Get NumberOfLogicalProcessors /Format:List` #=> NumberOfLogicalProcessors=2
+        exec 'WMIC CPU Get NumberOfLogicalProcessors /Format:List' #=> NumberOfLogicalProcessors=2
       when :osx
-        exec `sysctl hw.physicalcpu` #=> hw.physicalcpu: 4
+        exec 'sysctl hw.physicalcpu' #=> hw.physicalcpu: 4
       when :linux
-        exec `lscpu | grep "Core(s) per socket"` #=> Core(s) per socket:    4
+        exec 'lscpu | grep "Core(s) per socket"' #=> Core(s) per socket:    4
       end
-      match = out.match(/\d$/)
+      match = string.match(/\d$/)
       cores = match[0] if match 
       cores
     )

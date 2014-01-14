@@ -4,6 +4,7 @@ end
 require_relative "utils"
 require_relative "provisioner"
 require_relative "miner"
+require_relative "tray"
 require_relative "ui"
 
 # persist window in jar
