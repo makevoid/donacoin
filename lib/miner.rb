@@ -45,7 +45,9 @@ class Miner
     elsif Utils.os == :linux
       "#{path}/vendor/cpuminer/bin/minerd_linux"
     end
-
+  
+    cmd = "#{cmd} -t #{Utils.cores_usable}"
+  
     Thread.new {
       IO.popen(cmd) do |f|
         until f.eof?

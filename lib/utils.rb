@@ -12,8 +12,6 @@ class Utils
           :osx
         when /linux/
           :linux
-        when /solaris|bsd/
-          :unix
         else
           raise Error::WebDriverError, "unknown os: #{host_os.inspect}"
       end
@@ -27,5 +25,32 @@ class Utils
       32
     end
   end
+  
+  def self.exec(cmd)
+    puts cmd
+    `#{cmd}`
+    cmd
+  end
+  
+  def self.cores_usable
+    (cores.to_f / 2).ceil # half the cores
+    # cores - 1
+  end
 
+  def self.cores
+    @@cores ||= (
+      cores = 2 # default core numbers
+      string = case os
+      when :windows
+        exec `WMIC CPU Get NumberOfLogicalProcessors /Format:List` #=> NumberOfLogicalProcessors=2
+      when :osx
+        exec `sysctl hw.physicalcpu` #=> hw.physicalcpu: 4
+      when :linux
+        exec `lscpu | grep "Core(s) per socket"` #=> Core(s) per socket:    4
+      end
+      match = out.match(/\d$/)
+      cores = match[0] if match 
+      cores
+    )
+  end
 end
