@@ -9,9 +9,7 @@ class Donacoin::UI
   require_relative 'textarea_formatter'
   require_relative 'ui_actions'
   include UIActions
-
-
-
+  
   WINDOW_TITLE = "Donacoin"
 
   def initialize
@@ -38,6 +36,7 @@ class Donacoin::UI
     @miner = nil
     Thread.new {
       @miner = Miner.new
+      @miner.get_settings
     }
     # @miner.start - test only on osx
   end

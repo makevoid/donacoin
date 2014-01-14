@@ -5,10 +5,31 @@ class Miner
   @@pool = "-o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1"
 
   require 'fileutils'
+  
+  @@settings = {
+    pool: "stratum+tcp://dgc.hash.so:3341",
+    worker_user: "donacoin.2",
+    worker_pass: "2",
+  }
 
   def initialize
     # log machine infos
     puts "running on: #{Utils.os}, arch: #{Utils.arch}"
+  end
+  
+  def get_settings
+    host = "mkvd-32284.euw1.nitrousbox2.com" # nitrous
+    prov = Provisioner.new host
+    @@settings = prov.provision_settings
+  end
+  
+  # TODO: use this method
+  # call this method every 5 minutes
+  def check_setting
+    settings = get_settings
+    if settings != @settings
+      restart
+    end
   end
 
   def start
@@ -43,6 +64,12 @@ class Miner
     elsif Utils.os == :linux
       puts `killall minerd_linux`
     end
+  end
+
+  def restart
+    stop
+    sleep 2
+    start
   end
 
 end
