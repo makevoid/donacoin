@@ -14,8 +14,21 @@ class Donacoin::UI
 
   def initialize
     layout = "
-     [ <start | stop ]     
+     [ <start | stop ]
     "
+    
+    # mockup
+    # 
+    # layout = "
+    #  [ <start | stop ]
+    #  [ donation_info ]        
+    #  [ settings ]   
+    # "
+    # settings = "
+    #   [ username ]
+    #   [ speed_slider ]
+    # "
+    
     @ui = Swing::LEL.new(JFrame, layout) do |c, i| # c: component, i: interaction
       # components
       
