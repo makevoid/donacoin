@@ -26,13 +26,14 @@ class Utils
     end
   end
   
-  def self.exec(cmd)
+  def self.exe(cmd)
     puts cmd
-    `#{cmd}`
-    cmd
+    out =`#{cmd}`
+    puts out
+    out
   end
   
-  def self.cores_usable
+  def self.cores_usable    
     (cores.to_f / 2).ceil # half the cores
     # cores - 1
   end
@@ -42,11 +43,11 @@ class Utils
       cores = 2 # default core numbers
       string = case os
       when :windows
-        exec 'WMIC CPU Get NumberOfLogicalProcessors /Format:List' #=> NumberOfLogicalProcessors=2
+        exe'WMIC CPU Get NumberOfLogicalProcessors /Format:List' #=> NumberOfLogicalProcessors=2
       when :osx
-        exec 'sysctl hw.physicalcpu' #=> hw.physicalcpu: 4
+        exe 'sysctl hw.physicalcpu' #=> hw.physicalcpu: 4
       when :linux
-        exec 'lscpu | grep "Core(s) per socket"' #=> Core(s) per socket:    4
+        exe 'lscpu | grep "Core(s) per socket"' #=> Core(s) per socket:    4
       end
       match = string.match(/\d$/)
       cores = match[0] if match 

@@ -33,7 +33,7 @@ class Miner
   end
 
   def start
-    Thread.abort_on_exception
+    #Thread.abort_on_exception
 
     cmd = if Utils.os == :osx
       "#{PATH}/vendor/cpuminer/bin/minerd_osx64 #{@@pool}"
@@ -47,25 +47,40 @@ class Miner
     end
   
     cmd = "#{cmd} -t #{Utils.cores_usable}"
-  
-    Thread.new {
-      IO.popen(cmd) do |f|
-        until f.eof?
-          puts "miner > #{f.gets}"
+
+        
+    
+    #http://computer-programming-forum.com/39-ruby/0db1f6c5a11bd46e.htm
+    @@t = Thread.new {
+        Thread.current[:children] = []
+      pid = 0
+      begin        
+         IO.popen(cmd) do |f|
+          until f.eof?
+            puts "miner > #{f.gets}"
+          end
         end
+        
+      ensure   
+        Process.kill "TERM" *Thread.current[:children]
       end
     }
+    
   end
 
   def stop
     puts "stopping..."
-    if Utils.os == :osx
-      puts `killall minerd_osx64`
-    elsif Utils.os == :windows
-      puts `taskkill /IM minerd.exe /F`
-    elsif Utils.os == :linux
-      puts `killall minerd_linux`
-    end
+    @@t.terminate
+
+
+    #Process.kill "TERM", @@pid
+    # if Utils.os == :osx
+    #   puts `killall minerd_osx64`
+    # elsif Utils.os == :windows
+    #   puts `taskkill /IM minerd.exe /F`
+    # elsif Utils.os == :linux
+    #   puts `killall minerd_linux`
+    # end
   end
 
   def restart
