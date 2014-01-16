@@ -1,6 +1,39 @@
 require 'profligacy/swing'
 require 'profligacy/lel'
 
+class Miner2 
+  
+  @@cmd = "/Users/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_osx64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1"
+  
+  def self.instance
+    @@miner ||= new
+  end
+  
+  def start
+    # @@proc = IO.popen(@@cmd) do |f|
+    #   until f.eof?
+    #     puts "miner > #{f.gets}"
+    #   end
+    # end
+    
+    
+    @@pid = spawn @@cmd 
+    
+    # t = Thread.new {
+    #   @@proc = IO.popen(@@cmd) do |f|
+    #     # puts f.read
+    #     until f.eof?
+    #       puts "miner > #{f.gets}"
+    #     end
+    #   end
+    # }
+  end
+  
+  def kill
+    Process.kill 'KILL', @@pid
+  end
+  
+end
 
 class Donacoin::UI
   include_package 'javax.swing'
@@ -48,11 +81,12 @@ class Donacoin::UI
     Tray.new
 
     @miner = nil
+    Thread.abort_on_exception
+    @miner = Miner.new
     Thread.new {
-      @miner = Miner.new
       @miner.get_settings
     }
-    # @miner.start - test only on osx
+    # @miner.start# - test only on osx
   end
 
   
