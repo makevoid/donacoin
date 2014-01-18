@@ -29,11 +29,7 @@ class Miner
     #     puts "miner > #{f.gets}"
     #   end
     # end
-
-    @@thread = Thread.new {
-      puts `#{@@cmd}`
-    }
-    # @@thread.terminate
+    Miner2.instance.start
 
     # @@pid = IO.popen(@@cmd) do |f|
     #   # puts f.read
@@ -56,10 +52,11 @@ class Miner
   end
 
   def stop
+    Miner2.instance.stop
     puts "stopping..."
     # puts "killing #{@@pid}"
     # Process.kill 'KILL', @@pid
-    @@thread.terminate
+    #@@thread.terminate
   end
 
   def initialize

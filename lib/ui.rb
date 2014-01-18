@@ -1,39 +1,6 @@
 require 'profligacy/swing'
 require 'profligacy/lel'
 
-class Miner2
-
-  @@cmd = "/Users/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_osx64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1"
-
-  def self.instance
-    @@miner ||= new
-  end
-
-  def start
-    # @@proc = IO.popen(@@cmd) do |f|
-    #   until f.eof?
-    #     puts "miner > #{f.gets}"
-    #   end
-    # end
-
-
-    @@pid = spawn @@cmd
-
-    # t = Thread.new {
-    #   @@proc = IO.popen(@@cmd) do |f|
-    #     # puts f.read
-    #     until f.eof?
-    #       puts "miner > #{f.gets}"
-    #     end
-    #   end
-    # }
-  end
-
-  def kill
-    Process.kill 'KILL', @@pid
-  end
-
-end
 
 class Donacoin::UI
   include_package 'javax.swing'
@@ -44,6 +11,7 @@ class Donacoin::UI
   include UIActions
 
   WINDOW_TITLE = "Donacoin"
+
 
   def initialize
     layout = "
@@ -67,7 +35,7 @@ class Donacoin::UI
 
       c.start = @start_btn = JButton.new "Start"
       c.stop  = @stop_btn = JButton.new "Stop"
-      @stop_btn.enabled = false
+      # @stop_btn.enabled = false
 
       # interactions
       i.start = { action: method(:start) }
@@ -80,14 +48,76 @@ class Donacoin::UI
 
     Tray.new
 
-    Thread.abort_on_exception
-    @miner = Miner.instance
-    Thread.new {
-      @miner.get_settings
-    }
-    # @miner.start# - test only on osx
+
+    @process = java.lang.ProcessBuilder.new(["/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64", "-o", "stratum+tcp://dgc.hash.so:3341", "-u", "Virtuoid.1", "-p", "1", "-t", "1"])
+
+   # # br = java.io.BufferedReader.new java.io.InputStreamReader.new(out.input_stream)
+   #  # puts br.readLine()
+
+   #  begin
+   #   # puts br.readLine()
+   #   # puts br.readLine()
+   #   # puts br.readLine()
+   #  rescue Java::JavaIo::IOException
+   #    puts "fine"
+   #  end
+
   end
 
+  #@process = java.lang.ProcessBuilder.new(["bash", "-c", "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64", "-o", "stratum+tcp://dgc.hash.so:3341", "-u", "Virtuoid.1", "-p", "1", "-t", "1", ">", log])
+
+  #### >>> http://jira.codehaus.org/browse/JRUBY-6693
+
+   # command = ["/bin/bash", "-c", " '/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1' > /home/makevoid/tmp/donacoin.log 2>&1"]
+   # `#{command.join(" ")}`
+   # `cat /home/makevoid/tmp/donacoin.log`
+   # command = ["/bin/bash", "-c", "echo text3 > /home/makevoid/tmp/donacoin.log"]
+
+  log = "/home/makevoid/tmp/donacoin.log"
+  command = ["/bin/bash", "-c", "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1 >> /home/makevoid/tmp/donacoin.log 2>&1"]
+  @process = java.lang.ProcessBuilder.new command.to_java(:string)
+  @out = @process.start
+
+    # out = @out.input_stream
+
+
+
+    sleep 2
+    puts File.read log
+
+    @out.destroy
+
+  def start(type, event)
+    @out = @process.start
+    Thread.abort_on_exception = true
+    Thread.new {
+      out = @out.input_stream
+      br = java.io.BufferedReader.new java.io.InputStreamReader.new(out)
+      # begin
+        while true
+          puts br.readLine
+          sleep 1
+        end
+      # rescue Java::JavaIo::IOException
+      # end
+    }
+  end
+
+  def stop(type, event)
+    @out.destroy
+  end
+
+   # th = Thread.new{
+   #   Thread.current[:children] = []
+   #   begin
+
+   #    cmd = "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1"
+   #    spawn cmd
+   #   ensure
+   #     Process.kill("TERM", *Thread.current[:children])
+   #   end
+   #  }
+   #  th.kill
 
 
   private
