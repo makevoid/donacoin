@@ -17,7 +17,7 @@ Warbler::Config.new do |config|
   # config.includes = FileList["db"]
 
   # Additional files/directories to exclude
-  config.excludes = FileList["vendor/bin/windows_*"]
+  config.excludes = FileList["vendor/bin/windows_*", "donacoin.jar"]
 
   # Additional Java .jar files to include.  Note that if .jar files are placed
   # in lib (and not otherwise excluded) then they need not be mentioned here.
