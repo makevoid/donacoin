@@ -2,6 +2,7 @@ require 'profligacy/swing'
 require 'profligacy/lel'
 
 
+
 class Donacoin::UI
   include_package 'javax.swing'
   include Profligacy
@@ -12,6 +13,8 @@ class Donacoin::UI
 
   WINDOW_TITLE = "Donacoin"
 
+
+  Thread.abort_on_exception = true
 
   def initialize
     layout = "
@@ -49,19 +52,133 @@ class Donacoin::UI
     Tray.new
 
 
-    @process = java.lang.ProcessBuilder.new(["/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64", "-o", "stratum+tcp://dgc.hash.so:3341", "-u", "Virtuoid.1", "-p", "1", "-t", "1"])
+#2>&1
 
-   # # br = java.io.BufferedReader.new java.io.InputStreamReader.new(out.input_stream)
-   #  # puts br.readLine()
+# 2> /home/makevoid/tmp/donacoin.log
 
-   #  begin
-   #   # puts br.readLine()
-   #   # puts br.readLine()
-   #   # puts br.readLine()
-   #  rescue Java::JavaIo::IOException
-   #    puts "fine"
-   #  end
+# apache commons
 
+# java_import java.io.ByteArrayOutputStream
+
+# require 'commons-exec.jar'
+# java_import org.apache.commons.exec.CommandLine
+# java_import org.apache.commons.exec.DefaultExecutor
+# java_import org.apache.commons.exec.Executor
+# java_import org.apache.commons.exec.PumpStreamHandler
+
+
+
+# output_stream = ByteArrayOutputStream.new
+# cl = CommandLine.parse "ping google.com"
+# executor = DefaultExecutor.new
+# stream_handler = PumpStreamHandler.new output_stream
+# executor.set_stream_handler stream_handler
+# executor.execute cl
+# puts output_stream.to_string
+
+
+
+###
+
+
+    # java_import java.util.Scanner
+    # # runtime = Runtime.getRuntime
+    # # process = runtime.exec "/home/makevoid/Sites/donacoin/bin/miner"
+    # cmd = "/home/makevoid/Sites/donacoin/bin/miner"
+    # @process = java.lang.ProcessBuilder.new cmd
+
+
+
+
+    # scanner = Scanner.new @process.getInputStream
+
+
+    # Thread.new {
+    #   scanner = Scanner.new @process.getInputStream
+    #   puts "scanning"
+    #   while scanner.hasNextLine
+    #     puts "line"
+    #     line = scanner.nextLine
+    #     puts line
+    #   end
+    # }
+
+    cmd = "/home/makevoid/Sites/donacoin/bin/miner"
+    t = Thread.new {
+      proc = IO.popen(cmd) do |f|
+        # puts f.read
+        until f.eof?
+          puts "miner > #{f.gets}"
+        end
+      end
+    }
+    t.kill
+
+    ##############
+
+    # slave
+
+
+
+    require 'slave'
+    class Server
+      def start
+        cmd = "/home/makevoid/Sites/donacoin/bin/miner"
+        `#{cmd}`
+      end
+    end
+
+    slave = Slave.new object: Server.new
+
+    server = slave.object
+    server.start
+
+    slave.shutdown
+
+
+    ##############
+    cmd = "/home/makevoid/Sites/donacoin/bin/miner"
+    pid = spawn cmd
+    Process.detach pid
+    Process.exit! pid
+
+    ##############
+
+    require 'open3'
+    cmd = "/home/makevoid/Sites/donacoin/bin/miner"
+    stdin, stdout, stderr, wait_thr = Open3.popen3 cmd
+
+    Thread.new {
+      while true
+        begin
+          puts stderr.read_nonblock 10
+        rescue Errno::EAGAIN
+          puts "nothing to read"
+        end
+        sleep 1
+      end
+    }
+
+    puts wait_thr[:pid]
+
+    `pkill -TERM -P #{wait_thr[:pid]}`
+
+    #  taskkill /f /im procname.exe
+
+    #############
+
+    @out = @process.start
+
+  end
+
+
+  def start(type, event)
+    @out = @process.start
+
+  end
+
+  def stop(type, event)
+    @out.destroy
   end
 
   #@process = java.lang.ProcessBuilder.new(["bash", "-c", "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64", "-o", "stratum+tcp://dgc.hash.so:3341", "-u", "Virtuoid.1", "-p", "1", "-t", "1", ">", log])
@@ -71,41 +188,17 @@ class Donacoin::UI
    # command = ["/bin/bash", "-c", " '/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1' > /home/makevoid/tmp/donacoin.log 2>&1"]
    # `#{command.join(" ")}`
    # `cat /home/makevoid/tmp/donacoin.log`
-   # command = ["/bin/bash", "-c", "echo text3 > /home/makevoid/tmp/donacoin.log"]
-
-  log = "/home/makevoid/tmp/donacoin.log"
-  command = ["/bin/bash", "-c", "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1 >> /home/makevoid/tmp/donacoin.log 2>&1"]
-  @process = java.lang.ProcessBuilder.new command.to_java(:string)
-  @out = @process.start
-
-    # out = @out.input_stream
+   # command = ["/bin/bash", "-c", "echo text3 > /home/makevoid/tmp/donacoin.lo
 
 
+   ####
 
-    sleep 2
-    puts File.read log
+  # log = "/home/makevoid/tmp/donacoin.log"
+  # command = ["/bin/bash", "-c", "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1 >> /home/makevoid/tmp/donacoin.log 2>&1"]
+  # @process = java.lang.ProcessBuilder.new command.to_java(:string)
+  # @process.redirect_input(Redirect::INHERIT)
 
-    @out.destroy
 
-  def start(type, event)
-    @out = @process.start
-    Thread.abort_on_exception = true
-    Thread.new {
-      out = @out.input_stream
-      br = java.io.BufferedReader.new java.io.InputStreamReader.new(out)
-      # begin
-        while true
-          puts br.readLine
-          sleep 1
-        end
-      # rescue Java::JavaIo::IOException
-      # end
-    }
-  end
-
-  def stop(type, event)
-    @out.destroy
-  end
 
    # th = Thread.new{
    #   Thread.current[:children] = []
