@@ -10,7 +10,7 @@ class Miner
     pool: "stratum+tcp://dgc.hash.so:3341",
     worker_user: "donacoin.2",
     worker_pass: "2",
-    mining_value: 0.00436, # 1 kH/s per day - https://www.litecoinpool.org/calc?hashrate=100&power=&energycost=0.10&currency=USD
+    mining_value: 0.00431, # eur / 1 kH/s per day - https://www.litecoinpool.org/calc?hashrate=100&power=&energycost=0.10&currency=USD
   }
 
 
@@ -50,16 +50,27 @@ class Miner
     stdin, stdout, stderr, @wait_thr = Open3.popen3 start_cmd
 
     @t = Thread.new {
+      first_match = false
       while true
         unless stderr.eof?
           line = stderr.readline
-          # cpuminer specific - matches thread lines: /s, (\d+\.\d+)/ [remember to multiply for Utils.cores_usable]
-          match = line.match(/\), (\d+\.\d+)/)
-          if match
-            match = match[1]
-            @speed = match.to_f * @settings[:mining_value]
-          end
           puts line
+          # cpuminer specific - matches thread lines: /s, (\d+\.\d+)/ [remember to multiply for Utils.cores_usable]
+          regex = unless first_match
+            /s, (\d+\.\d+)/
+          else
+            /\), (\d+\.\d+)/
+          end
+          match = line.match(regex)
+          if match
+            multiplier = 1
+            unless first_match
+              first_match = true
+              multiplier = Utils.cores_usable
+            end
+            match = match[1]
+            @speed = (match.to_f * @@settings[:mining_value] * 100 * multiplier).round 1
+          end
         end
         sleep 0.2
       end

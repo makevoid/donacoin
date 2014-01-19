@@ -1,3 +1,17 @@
+class OS
+  def self.linux?
+    Utils.os == :linux
+  end
+
+  def self.osx?
+    Utils.os == :osx
+  end
+
+  def self.windows?
+    Utils.os == :windows
+  end
+end
+
 class Utils
 
   require 'rbconfig'
@@ -25,15 +39,15 @@ class Utils
       32
     end
   end
-  
+
   def self.exe(cmd)
     puts cmd
     out =`#{cmd}`
     puts out
     out
   end
-  
-  def self.cores_usable    
+
+  def self.cores_usable
     (cores.to_f / 2).ceil # half the cores
     # cores - 1
   end
@@ -50,7 +64,7 @@ class Utils
         exe 'lscpu | grep "Core(s) per socket"' #=> Core(s) per socket:    4
       end
       match = string.match(/\d$/)
-      cores = match[0] if match 
+      cores = match[0] if match
       cores
     )
   end

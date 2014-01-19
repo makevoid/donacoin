@@ -47,7 +47,6 @@ class Donacoin::UI
       # interactions
       i.start = { action: method(:start) }
       i.stop  = { action: method(:stop) }
-
     end
 
     @ui.build(args: WINDOW_TITLE).default_close_operation = JFrame::EXIT_ON_CLOSE
@@ -68,7 +67,7 @@ class Donacoin::UI
     @speed_thread = Thread.new {
       while true
         @donation_label.text = unless @miner.speed == 0
-          "You are donating #{@miner.speed} €/cents per day"
+          "<html>You are donating<br>#{@miner.speed} €/cents per day</html>"
         else
           "Starting donation process..."
         end
