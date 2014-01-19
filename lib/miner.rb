@@ -10,15 +10,18 @@ class Miner
     pool: "stratum+tcp://dgc.hash.so:3341",
     worker_user: "donacoin.2",
     worker_pass: "2",
+    mining_value: 0.00436, # 1 kH/s per day - https://www.litecoinpool.org/calc?hashrate=100&power=&energycost=0.10&currency=USD
   }
 
 
   @@cmd = "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1"
 
+  attr_reader :speed
 
   def initialize
     # log machine infos
     puts "running on: #{Utils.os}, arch: #{Utils.arch}"
+    @speed = 0
   end
 
   def start_cmd
@@ -48,7 +51,16 @@ class Miner
 
     @t = Thread.new {
       while true
-        puts stderr.readline unless stderr.eof?
+        unless stderr.eof?
+          line = stderr.readline
+          # cpuminer specific - matches thread lines: /s, (\d+\.\d+)/ [remember to multiply for Utils.cores_usable]
+          match = line.match(/\), (\d+\.\d+)/)
+          if match
+            match = match[1]
+            @speed = match.to_f * @settings[:mining_value]
+          end
+          puts line
+        end
         sleep 0.2
       end
     }

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'profligacy/swing'
 require 'profligacy/lel'
 
@@ -18,6 +20,7 @@ class Donacoin::UI
   def initialize
     layout = "
      [ <start | stop ]
+     [ (150,40)*donation_label ]
     "
 
     # mockup
@@ -39,9 +42,12 @@ class Donacoin::UI
       c.stop  = @stop_btn = JButton.new "Stop"
       @stop_btn.enabled = false
 
+      c.donation_label = @donation_label = JLabel.new "Press Start to begin donating"
+
       # interactions
       i.start = { action: method(:start) }
       i.stop  = { action: method(:stop) }
+
     end
 
     @ui.build(args: WINDOW_TITLE).default_close_operation = JFrame::EXIT_ON_CLOSE
@@ -58,6 +64,17 @@ class Donacoin::UI
 
     @start_btn.enabled = false
     @stop_btn.enabled  = true
+
+    @speed_thread = Thread.new {
+      while true
+        @donation_label.text = unless @miner.speed == 0
+          "You are donating #{@miner.speed} €/cents per day"
+        else
+          "Starting donation process..."
+        end
+        sleep 0.5
+      end
+    }
   end
 
   def stop(type, event)
@@ -65,6 +82,8 @@ class Donacoin::UI
 
     @start_btn.enabled = true
     @stop_btn.enabled  = false
+    @donation_label.text = "Press Start to resume donating"
+    @speed_thread.terminate
   end
 
 
