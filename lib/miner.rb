@@ -24,18 +24,21 @@ class Miner
   def start_cmd
     # cmd = "/home/makevoid/Sites/donacoin/bin/miner"
 
-    bin = if Utils.os == :linux
-      "cpuminer/bin/minerd_linux#{Utils.arch}"
-    elsif Utils.os == :osx
-      "cpuminer/bin/minerd_osx#{Utils.arch}"
-    elsif Utils.os == :windows
+    unless Utils.os == :windows
+      bin = if Utils.os == :linux
+        "cpuminer/bin/minerd_linux#{Utils.arch}"
+      elsif Utils.os == :osx
+        "cpuminer/bin/minerd_osx#{Utils.arch}"
+      end
+
+      cmd = "#{PATH}/vendor/#{bin}"
+    else
       path = File.expand_path "../../../../", __FILE__
       path = path[5..-1]
       puts path
-      bin = "#{path}/windows_32/minerd.exe"
+      cmd = "#{path}/windows_32/minerd.exe"
     end
 
-    cmd = "/home/makevoid/Sites/donacoin/vendor/#{bin}"
     cmd = "#{cmd} #{@@pool}"
     "#{cmd} -t #{Utils.cores_usable}"
   end
