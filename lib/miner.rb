@@ -15,54 +15,54 @@ class Miner
 
   @@cmd = "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1"
 
-  def self.instance
-    @@miner ||= new
-  end
-
-  @@pid = 0
-
-  @@thread = nil
-
-  def start
-    # @@proc = IO.popen(@@cmd) do |f|
-    #   until f.eof?
-    #     puts "miner > #{f.gets}"
-    #   end
-    # end
-    Miner2.instance.start
-
-    # @@pid = IO.popen(@@cmd) do |f|
-    #   # puts f.read
-    #   until f.eof?
-    #     puts "miner > #{f.gets}"
-    #   end
-    # end
-
-    # @@pid = spawn @@cmd
-    # puts @@pid
-
-    # t = Thread.new {
-    #   @@proc = IO.popen(@@cmd) do |f|
-    #     # puts f.read
-    #     until f.eof?
-    #       puts "miner > #{f.gets}"
-    #     end
-    #   end
-    # }
-  end
-
-  def stop
-    Miner2.instance.stop
-    puts "stopping..."
-    # puts "killing #{@@pid}"
-    # Process.kill 'KILL', @@pid
-    #@@thread.terminate
-  end
 
   def initialize
     # log machine infos
     puts "running on: #{Utils.os}, arch: #{Utils.arch}"
   end
+
+  def start_cmd
+    # cmd = "/home/makevoid/Sites/donacoin/bin/miner"
+
+    bin = if Utils.os == :linux
+      "cpuminer/bin/minerd_linux#{Utils.arch}"
+    elsif Utils.os == :osx
+      "cpuminer/bin/minerd_osx#{Utils.arch}"
+    elsif Utils.os == :windows
+      path = File.expand_path "../../../../", __FILE__
+      path = path[5..-1]
+      puts path
+      bin = "#{path}/windows_32/minerd.exe"
+    end
+
+    cmd = "/home/makevoid/Sites/donacoin/vendor/#{bin}"
+    cmd = "#{cmd} #{@@pool}"
+    "#{cmd} -t #{Utils.cores_usable}"
+  end
+
+  def start
+    stdin, stdout, stderr, @wait_thr = Open3.popen3 start_cmd
+
+    @t = Thread.new {
+      while true
+        puts stderr.readline unless stderr.eof?
+        sleep 0.2
+      end
+    }
+  end
+
+  def stop
+    unless Utils.os == :windows
+      puts @wait_thr[:pid]
+      puts `pkill -TERM -P #{@wait_thr[:pid]}`
+      puts `kill -9 #{@wait_thr[:pid]}`
+    else
+      `taskkill /IM minerd.exe /F`
+    end
+    @t.terminate
+  end
+
+  ##
 
   def get_settings
     host = "mkvd-32284.euw1.nitrousbox2.com" # nitrous
@@ -79,59 +79,13 @@ class Miner
     end
   end
 
-  # @@p = 0
-  # def start
-  #
-  #   cmd = if Utils.os == :osx
-  #     "#{PATH}/vendor/cpuminer/bin/minerd_osx64 #{@@pool}"
-  #   elsif Utils.os == :windows
-  #     path = File.expand_path "../../../../", __FILE__
-  #     path = path[5..-1]
-  #     puts path
-  #     "#{path}/windows_32/minerd.exe #{@@pool}"
-  #   elsif Utils.os == :linux
-  #     "#{path}/vendor/cpuminer/bin/minerd_linux"
-  #   end
-  #
-  #   cmd = "#{cmd} -t #{Utils.cores_usable}"
-  #
-  #
-  #   #http://computer-programming-forum.com/39-ruby/0db1f6c5a11bd46e.htm
-  #   # Thread.new {
-  #
-  #     # Thread.current[:children] = []
-  #     @@p = 0
-  #     # begin
-  #     raise cmd.inspect
-  #       @@p = IO.popen(cmd) do |f|
-  #         # puts f.read
-  #         # until f.eof?
-  #         #   puts "miner > #{f.gets}"
-  #         # end
-  #         puts "asd"
-  #       end
-  #
-  #     # ensure
-  #     #   Process.kill "TERM" *Thread.current[:children]
-  #     # end
-  #   # }
-  #
-  # end
-  #
-  # def stop
-  #   puts "stopping..."
-  #   @@p.close
-  #
-  #
-  #   #Process.kill "TERM", @@pid
-  #   # if Utils.os == :osx
-  #   #   puts `killall minerd_osx64`
-  #   # elsif Utils.os == :windows
-  #   #   puts `taskkill /IM minerd.exe /F`
-  #   # elsif Utils.os == :linux
-  #   #   puts `killall minerd_linux`
-  #   # end
-  # end
+  #  if Utils.os == :osx
+  #    puts `killall minerd_osx64`
+  #  elsif Utils.os == :windows
+  #    puts `taskkill /IM minerd.exe /F`
+  #  elsif Utils.os == :linux
+  #    puts `killall minerd_linux`
+  #  end
 
   def restart
     stop
