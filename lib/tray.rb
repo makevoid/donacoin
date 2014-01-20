@@ -29,16 +29,21 @@ class Tray
 
     popup = PopupMenu.new
     start = MenuItem.new "Start"
-    start.addActionListener StartAction.new
     popup.add start
     start2 = MenuItem.new "Start2"
     popup.add start2
-    start3 = MenuItem.new "Start3"
-    popup.add start3
+    quit = MenuItem.new "Quit"
+    popup.add quit
 
     tray_icon.popup_menu = popup
 
-
+    start.add_action_listener StartAction.new
+    start2.add_action_listener do |evt|
+      puts "Start 2!!!!"
+    end
+    quit.add_action_listener do |evt|
+      java.lang.System.exit 0
+    end
 
     tray = java.awt.SystemTray.getSystemTray
     tray.add tray_icon

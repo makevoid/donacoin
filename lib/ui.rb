@@ -85,7 +85,6 @@ class Donacoin::UI
     @speed_thread.terminate
   end
 
-
   private
 
   def connection_test
