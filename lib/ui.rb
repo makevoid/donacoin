@@ -23,28 +23,35 @@ class Donacoin::UI
     include_package 'javax.swing'
     include Profligacy
 
+    MAX_THREADS = 4 # todo: Utils.max_threads
+
     def initialize(frame, modal)
       super frame, modal
       layout = "
-       [ user_label | (150,40)*user_field ]
-       [ threads_slider ]
+       [ user_label               ]
+       [ (150,30)*user_field      ]
+       [ threads_label            ]
+       [ (150,30)*threads_slider  ]
       "
-      @ui = Swing::LEL.new(JFrame, layout) do |c, i|
-        c.user_label = JLabel.new "username"
-        c.user_field = @user_field = JTextField.new 
-        c.threads_slider = @threads_slider = JSlider.new 1, 4
 
-        i.user_field = { action: method(:update_user) }
-        i.threads_slider = { change: method(:threads_slider) }
-      end      
+      @threads    = 2
+
+      @ui = Swing::LEL.new(JFrame, layout) do |c, i|
+        c.user_label = JLabel.new "Username:"
+        c.user_field = @user_field = JTextField.new
+        c.threads_label = @threads_label = JLabel.new "Threads (#{@threads}):"
+        c.threads_slider = @threads_slider = JSlider.new 1, MAX_THREADS
+
+        i.user_field      = { action: method(:update_user)    }
+        i.threads_slider  = { change: method(:threads_slider) }
+      end
 
       @ui.build args: "Settings"
     end
-    
-
 
     def threads_slider(type, event)
-      puts "changed value #{@threads_slider.value}"
+      @threads = @threads_slider.value
+      @threads_label.text = "Threads (#{@threads}):"
     end
 
     def update_user(type, event)
