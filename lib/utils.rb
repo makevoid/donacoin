@@ -52,6 +52,10 @@ class Utils
     # cores - 1
   end
 
+  def self.max_threads
+    java.lang.Runtime.getRuntime().availableProcessors()
+  end
+
   def self.cores
     @@cores ||= (
       cores = 2 # default core numbers
