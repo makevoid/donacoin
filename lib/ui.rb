@@ -20,19 +20,36 @@ class Donacoin::UI
   Thread.abort_on_exception = true
 
   class SettingsDialog < JDialog
+    include_package 'javax.swing'
     include Profligacy
 
     def initialize(frame, modal)
       super frame, modal
       layout = "
-       [ username ]
+       [ user_label | (150,40)*user_field ]
+       [ threads_slider ]
       "
       @ui = Swing::LEL.new(JFrame, layout) do |c, i|
-        c.username = JLabel.new "username"
-      end
+        c.user_label = JLabel.new "username"
+        c.user_field = @user_field = JTextField.new 
+        c.threads_slider = @threads_slider = JSlider.new 1, 4
+
+        i.user_field = { action: method(:update_user) }
+        i.threads_slider = { change: method(:threads_slider) }
+      end      
+
+      @ui.build args: "Settings"
+    end
+    
 
 
-      @ui.build(args: "yo")
+    def threads_slider(type, event)
+      puts "changed value #{@threads_slider.value}"
+    end
+
+    def update_user(type, event)
+      @username = @user_field.text
+      puts @username
     end
   end
 
@@ -41,7 +58,7 @@ class Donacoin::UI
     layout = "
      [ <start | stop ]
      [ (150,40)*donation_label ]
-     [ settings ]
+     [ <settings ]
     "
 
     # mockup
