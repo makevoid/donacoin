@@ -3,6 +3,8 @@
 require 'profligacy/swing'
 require 'profligacy/lel'
 
+
+
 class Donacoin::UI
   include_package 'javax.swing'
   include Profligacy
@@ -17,10 +19,29 @@ class Donacoin::UI
 
   Thread.abort_on_exception = true
 
+  class SettingsDialog < JDialog
+    include Profligacy
+
+    def initialize(frame, modal)
+      super frame, modal
+      layout = "
+       [ username ]
+      "
+      @ui = Swing::LEL.new(JFrame, layout) do |c, i|
+        c.username = JLabel.new "username"
+      end
+
+
+      @ui.build(args: "yo")
+    end
+  end
+
+
   def initialize
     layout = "
      [ <start | stop ]
      [ (150,40)*donation_label ]
+     [ settings ]
     "
 
     # mockup
@@ -41,21 +62,30 @@ class Donacoin::UI
       c.start = @start_btn = JButton.new "Start"
       c.stop  = @stop_btn = JButton.new "Stop"
       @stop_btn.enabled = false
+      c.settings = JButton.new "Settings"
 
       c.donation_label = @donation_label = JLabel.new "Press Start to begin donating"
 
       # interactions
-      i.start = { action: method(:start) }
-      i.stop  = { action: method(:stop) }
+      i.start     = { action: method(:start)    }
+      i.stop      = { action: method(:stop)     }
+      i.settings  = { action: method(:settings) }
     end
 
-    @ui.build(args: WINDOW_TITLE).default_close_operation = JFrame::EXIT_ON_CLOSE
+    @frame = @ui.build(args: WINDOW_TITLE)
+    @frame.default_close_operation = JFrame::EXIT_ON_CLOSE
 
     puts "launched ui"
 
     Tray.new
   end
 
+  def settings(type, event)
+    dialog = SettingsDialog.new @frame, true
+    # dialog = JDialog.new @frame, true
+    # JOptionPane.showMessageDialog @frame, "Could not open file",
+    #             "Error", JOptionPane::ERROR_MESSAGE
+  end
 
   def start(type, event)
     @miner = Miner.new
