@@ -53,7 +53,7 @@ class Utils
   end
 
   def self.max_threads
-    java.lang.Runtime.getRuntime().availableProcessors()
+    java.lang.Runtime.getRuntime.availableProcessors
   end
 
   def self.cores
