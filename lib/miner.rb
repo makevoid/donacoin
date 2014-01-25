@@ -35,19 +35,10 @@ class Miner
         "cpuminer/bin/minerd_osx#{Utils.arch}"
       end
 
-    # InputStream input = Thread.getCurrentThread().getResourceAsStream("/donacoin/vendor/cpuminer/" + os + arch);
-    # tempfile = Tempfile.new(basename)
-    # tempfile.binmode
-    # tempfile.write Thread.getCurrentThread().getResourceAsStream("/donacoin/vendor/cpuminer/" + os + arch);.read
+ 
+      
+      cmd = "./miner_tmp"
 
-      #input =  java.lang.Thread.java_class.resource_as_stream "/donacoin/vendor/cpuminer/bin/minerd_#{Utils.os}#{Utils.arch}"
-      input =  java.lang.Thread.java_class.resource_as_stream "/vendor/cpuminer/bin/minerd_osx64"
-      temp_file = Tempfile.new "miner"
-      temp_file.chmod 0755    
-      temp_file.binmode
-      temp_file.write input.read
-
-      cmd = temp_file.path
     else
       path = File.expand_path "../../../../", __FILE__
       path = path[5..-1]
