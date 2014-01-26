@@ -35,8 +35,8 @@ class Miner
         "cpuminer/bin/minerd_osx#{Utils.arch}"
       end
 
- 
-      
+
+
       cmd = "./miner_tmp"
 
     else
@@ -47,7 +47,7 @@ class Miner
     end
 
     cmd = "#{cmd} #{@@pool}"
-    "#{cmd} -t #{Utils.cores_usable}"
+    "#{cmd} -t #{Settings.instance.threads}"
   end
 
   def start

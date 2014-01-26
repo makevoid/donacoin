@@ -4,6 +4,7 @@ end
 require_relative "setup"
 require_relative "utils"
 require_relative "provisioner"
+require_relative "settings"
 require_relative "miner"
 require_relative "tray"
 require_relative "ui"
