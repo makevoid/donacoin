@@ -1,11 +1,3 @@
-class StartAction
-  include java.awt.event.ActionListener
-
-  def actionPerformed(event)
-    puts "DAIANE!!!!"
-  end
-end
-
 class Tray
 
   import java.awt.AWTException
@@ -19,7 +11,7 @@ class Tray
 
   PATH = File.expand_path "../../", __FILE__
 
-  def initialize
+  def initialize(frame)
     linux = ""
     linux =
     image = Toolkit.getDefaultToolkit.getImage "#{PATH}/icon.png"
@@ -28,18 +20,15 @@ class Tray
     tray_icon.image_auto_size = true
 
     popup = PopupMenu.new
-    start = MenuItem.new "Start"
-    popup.add start
-    start2 = MenuItem.new "Start2"
-    popup.add start2
+    show = MenuItem.new "Show"
+    popup.add show
     quit = MenuItem.new "Quit"
     popup.add quit
 
     tray_icon.popup_menu = popup
 
-    start.add_action_listener StartAction.new
-    start2.add_action_listener do |evt|
-      puts "Start 2!!!!"
+    show.add_action_listener do |evt|
+      frame.state = java.awt.Frame::NORMAL
     end
     quit.add_action_listener do |evt|
       java.lang.System.exit 0

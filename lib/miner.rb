@@ -14,7 +14,6 @@ class Miner
     mining_value: 0.00431, # eur / 1 kH/s per day - https://www.litecoinpool.org/calc?hashrate=100&power=&energycost=0.10&currency=USD
   }
 
-
   @@cmd = "/home/makevoid/Sites/donacoin/vendor/cpuminer/bin/minerd_linux64 -o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1 -t 1"
 
   attr_reader :speed
