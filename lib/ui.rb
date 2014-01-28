@@ -47,7 +47,7 @@ class Donacoin::UI
 
     # FIXME > Setups raises error in jar
     #
-    # Setup.new.setup
+    Setup.new.setup
 
     load_preferences
   end
