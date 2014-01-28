@@ -74,7 +74,11 @@ class Utils
   end
 
   def self.tmp_path
-    # unless windows...
-    "/tmp"
+    if Utils.os == :windows      
+      #TODO: Fix this shit
+      File.expand_path(File.join "AppData", "Local", "Temp" )    
+    else
+      "/tmp" 
+    end     
   end
 end
