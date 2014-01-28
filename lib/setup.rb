@@ -13,11 +13,12 @@ class Setup
   end
 
   def create_mining_binaries
+    miner_tmp = "#{Utils.tmp_path}/miner_tmp"
     path = "/vendor/cpuminer/bin/minerd_#{Utils.os}#{Utils.arch}"
     input = get_miner "/donacoin#{path}"
     input = get_miner path unless input
 
-    output = java.io.FileOutputStream.new "miner_tmp"
+    output = java.io.FileOutputStream.new miner_tmp
     buf = Java::byte[1024].new
     bytes_read = 0
     while ( bytes_read = input.read(buf) ) > 0
@@ -26,7 +27,7 @@ class Setup
     input.close()
     output.close()
 
-    File.chmod 0755, "miner_tmp"
+    File.chmod 0755, miner_tmp
   end
 
 end

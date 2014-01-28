@@ -72,4 +72,9 @@ class Utils
       cores
     )
   end
+
+  def self.temp_path
+    # unless windows...
+    "/tmp"
+  end
 end
