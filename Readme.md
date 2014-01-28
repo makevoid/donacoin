@@ -1,6 +1,21 @@
 # Donacoin
+### Donacoin is a cryptocoin mining based donation system
 
-### 
+Innovative, simple, open source!
+
+Donating without spending money, just run the program and let your computer do the work. Trough cryptocoin mining you will generate some cryptocoins that will be exchanged to USD/EUR and donated to the cause/charity/ngo you selected.
+
+more infos on: <http://donacoin.com>
+
+
+### Install (zip install - easiest, contains both)
+
+    wget http://uploads.makevoid.com/donacoin.zip
+    unzip
+
+or simply download form this link: <http://uploads.makevoid.com/donacoin.zip>
+
+then *run* the *donacoin.jar* file in that folder
 
 
 
