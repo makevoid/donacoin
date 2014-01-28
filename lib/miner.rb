@@ -26,9 +26,9 @@ class Miner
 
   def start_cmd
     # cmd = "/home/makevoid/Sites/donacoin/bin/miner"
-    
+
     tmp_path = "" # TODO fix tmp path
-    
+
     # if used in jar
     tmp_path = File.expand_path "../../../../", __FILE__
     tmp_path = tmp_path[5..-1]
@@ -36,11 +36,12 @@ class Miner
 
     unless Utils.os == :windows
       bin = if Utils.os == :linux
-        "#{tmp_path}cpuminer/bin/minerd_linux#{Utils.arch}"
+        "#{tmp_path}/vendor/cpuminer/bin/minerd_linux#{Utils.arch}"
       elsif Utils.os == :osx
-        "#{tmp_path}cpuminer/bin/minerd_osx#{Utils.arch}"
+        "#{tmp_path}/vendor/cpuminer/bin/minerd_osx#{Utils.arch}"
       end
-      cmd = "./miner_tmp"
+      # cmd = "./miner_tmp"
+      cmd = bin
     else
       path = File.expand_path "../../../../", __FILE__
       path = path[5..-1]
