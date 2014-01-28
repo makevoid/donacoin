@@ -73,7 +73,7 @@ class Utils
     )
   end
 
-  def self.temp_path
+  def self.tmp_path
     # unless windows...
     "/tmp"
   end
