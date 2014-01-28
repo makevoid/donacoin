@@ -8,8 +8,8 @@ class Setup
     #...
   end
 
-  def get_miner
-    self.java.lang.Object.new.java_class.resource_as_stream
+  def get_miner(path)
+    self.java.lang.Object.new.java_class.resource_as_stream path
   end
 
   def create_mining_binaries
