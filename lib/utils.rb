@@ -74,11 +74,12 @@ class Utils
   end
 
   def self.tmp_path
-    if Utils.os == :windows      
-      #TODO: Fix this shit
-      File.expand_path (File.join "C:","TEMP")
-    else
-      "/tmp" 
-    end     
+    java.lang.System.getProperty "java.io.tmpdir"
+    # if Utils.os == :windows            
+    #   java.lang.System.getProperty "java.io.tmpdir"
+    #   #File.expand_path (File.join "C:","TEMP")
+    # else      
+    #   # "/tmp" 
+    # end     
   end
 end

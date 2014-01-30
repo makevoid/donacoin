@@ -42,7 +42,7 @@ class Donacoin::UI
     @frame.default_close_operation = JFrame::EXIT_ON_CLOSE
 
     puts "launched ui"
-
+    
     Tray.new @frame
 
     # FIXME > Setups raises error in jar
