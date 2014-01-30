@@ -1,7 +1,7 @@
 JObject = java.lang.Object
 
 class Miner
-
+    
   @@pool = "-o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1"
 
   require 'fileutils'
@@ -80,8 +80,7 @@ class Miner
   ##
 
   def get_settings
-    host = "mkvd-32284.euw1.nitrousbox2.com" # nitrous
-    prov = Provisioner.new host
+    prov = Provisioner.new Settings.host
     @@settings = prov.provision_settings
   end
 

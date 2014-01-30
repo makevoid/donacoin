@@ -3,6 +3,12 @@
 require 'profligacy/swing'
 require 'profligacy/lel'
 
+class Cause
+  def self.all
+    ["Wikipedia", "Wikileaks", "Riotvan"]
+  end
+end
+
 
 class Donacoin::UI
   include_package 'javax.swing'
@@ -20,6 +26,7 @@ class Donacoin::UI
     layout = "
      [ start | stop ]
      [ (0,50)*donation_label | _ ]
+     [ cause_select | _ ]
      [ .minimize | >.settings ]
     "
 
@@ -61,10 +68,14 @@ class Donacoin::UI
       c.start = @start_btn = button
       c.stop  = @stop_btn = JButton.new "Stop"
       @stop_btn.enabled = false
+      c.donation_label = @donation_label = JLabel.new "Press Start to begin donating"
+      
+      c.cause_select = @cause_select = JComboBox.new 
+      Cause.all.each do |cause|
+        @cause_select.add_item cause
+      end
       c.minimize = JButton.new "Minimize in Tray"
       c.settings = JButton.new "Settings"
-
-      c.donation_label = @donation_label = JLabel.new "Press Start to begin donating"
 
       # interactions
       i.start     = { action: method(:start)    }
@@ -75,7 +86,8 @@ class Donacoin::UI
   end
 
   def start(type, event)
-    @miner = Miner.new
+    Settings.instance.cause = @cause_select.selected_item
+    @miner = Miner.new 
     @miner.start
 
     @start_btn.enabled = false
@@ -91,6 +103,14 @@ class Donacoin::UI
         sleep 0.5
       end
     }
+    
+    @notify_thread = Thread.new {
+      while true
+        prov = Provisioner.new Settings.host
+        prov.notify_mining speed: @miner.speed, username: Settings.instance.username, cause: Settings.instance.cause, uid: Settings.uid 
+        sleep 5
+      end
+    }
   end
 
   def stop(type, event)
@@ -100,6 +120,7 @@ class Donacoin::UI
     @stop_btn.enabled  = false
     @donation_label.text = "Press Start to resume donating"
     @speed_thread.terminate
+    @notify_thread.terminate    
   end
 
   def minimize(type, event)
