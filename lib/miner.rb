@@ -25,28 +25,18 @@ class Miner
   end
 
   def start_cmd
-    unless Utils.os == :windows
-      # bin = if Utils.os == :linux
-      #   "vendor/cpuminer/bin/minerd_linux#{Utils.arch}"
-      # elsif Utils.os == :osx
-      #   "vendor/cpuminer/bin/minerd_osx#{Utils.arch}"
-      # end
-
-      # TODO put temporary path here
-      # cmd = "./miner_tmp"
+    unless Utils.os == :windows      
       cmd = "#{Utils.tmp_path}/miner_tmp"
-    else
-      path = File.expand_path "../../../../", __FILE__
-      path = path[5..-1]
-      puts path
-      cmd = "#{path}/windows_32/minerd.exe"
+    else      
+      cmd = "#{Utils.tmp_path}\\minerd.exe"
     end
 
     cmd = "#{cmd} #{@@pool}"
     "#{cmd} -t #{Settings.instance.threads}"
   end
 
-  def start
+  def start    
+    puts start_cmd    
     stdin, stdout, stderr, @wait_thr = Open3.popen3 start_cmd
 
     @t = Thread.new {
