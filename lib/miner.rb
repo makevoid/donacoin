@@ -26,17 +26,16 @@ class Miner
 
   def start_cmd
     unless Utils.os == :windows      
-      cmd = "#{Utils.tmp_path}/miner_tmp"
+      cmd = "#{Utils.tmp_path}miner_tmp"
     else      
-      cmd = "#{Utils.tmp_path}\\minerd.exe"
+      cmd = "#{Utils.tmp_path}minerd.exe"
     end
 
     cmd = "#{cmd} #{@@pool}"
     "#{cmd} -t #{Settings.instance.threads}"
   end
 
-  def start    
-    puts start_cmd    
+  def start           
     stdin, stdout, stderr, @wait_thr = Open3.popen3 start_cmd
 
     @t = Thread.new {

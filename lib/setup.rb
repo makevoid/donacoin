@@ -31,12 +31,11 @@ class Setup
     classes.map{ |klass| java_import "java.util.zip.#{klass}" }    
     zis = ZipInputStream.new FileInputStream.new path
     
-    ze = zis.next_entry
+    file = zis.next_entry
 
-    while (!ze.nil?) do
-      entry_name = ze.name
-      
-      f = java.io.File.new "#{Utils.tmp_path}/#{entry_name}"
+    while (!file.nil?) do
+          
+      f = java.io.File.new "#{Utils.tmp_path}/#{file.name}"
       f.parent_file.mkdirs
       fos = FileOutputStream.new f
       len = 0
@@ -45,7 +44,7 @@ class Setup
         fos.write buffer, 0, len
       end
       fos.close
-      ze = zis.next_entry
+      file = zis.next_entry
     end
     zis.close_entry
     zis.close
