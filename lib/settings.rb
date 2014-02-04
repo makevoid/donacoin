@@ -1,11 +1,10 @@
 class Settings
 
   attr_accessor :username
-  attr_accessor :cause  
-  attr_writer   :threads
+  attr_accessor :cause      
+  attr_writer   :threads   
 
   # application settings
-
   @@host = "donacoin.com"   # production 
   @@host = "localhost:3000" # dev
 

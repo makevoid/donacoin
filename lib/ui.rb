@@ -78,10 +78,11 @@ class Donacoin::UI
       c.settings = JButton.new "Settings"
 
       # interactions
-      i.start     = { action: method(:start)    }
-      i.stop      = { action: method(:stop)     }
-      i.minimize  = { action: method(:minimize) }
-      i.settings  = { action: method(:settings) }
+      i.start        = { action: method(:start)        }
+      i.stop         = { action: method(:stop)         }
+      i.cause_select = { action: method(:cause_select) }
+      i.minimize     = { action: method(:minimize)     }      
+      i.settings     = { action: method(:settings)     }
     end
   end
 
@@ -121,6 +122,10 @@ class Donacoin::UI
     @donation_label.text = "Press Start to resume donating"
     @speed_thread.terminate
     @notify_thread.terminate    
+  end
+
+  def cause_select(type, event)
+    Settings.instance.cause = @cause_select.selected_item    
   end
 
   def minimize(type, event)

@@ -4,7 +4,7 @@ class Donacoin::UI
     include_package 'javax.swing'
     include Profligacy
 
-    attr_reader :ui
+    attr_reader :ui    
 
     MAX_THREADS = Utils.max_threads
 
