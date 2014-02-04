@@ -108,7 +108,8 @@ class Donacoin::UI
     @notify_thread = Thread.new {
       while true
         prov = Provisioner.new Settings.host
-        prov.notify_mining speed: @miner.speed, username: Settings.instance.username, cause: Settings.instance.cause, uid: Settings.uid 
+        prov.notify_mining speed: @miner.speed, username: Settings.instance.username, cause: Settings.instance.cause, uid: Settings.instance.uid
+        
         sleep 5
       end
     }

@@ -22,7 +22,6 @@ class Provisioner
   
   def notify_mining(params)
     uri = URI.parse "http://#{host}#{NOTIFY_URL}"
-    p uri
     Net::HTTP.post_form uri, params
     # url = 
     # params.to_json

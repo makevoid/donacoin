@@ -59,7 +59,6 @@ class Miner
             end
             match = match[1]
             @speed = (match.to_f * @@settings[:mining_value] * 100 * multiplier).round 1
-            Settings.instance.khs = @speed
           end
         end
         sleep 0.2
