@@ -43,6 +43,8 @@ class Donacoin::UI
       settings.username = @user_field.text
       settings.threads  = @threads_slider.value
       settings.prefs_save
+      # todo: this doesn't work like .visible = true
+      self.dispose
     end
 
     def threads_slider(type, event)
