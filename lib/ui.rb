@@ -32,18 +32,6 @@ class Donacoin::UI
      [ .minimize | >.settings ]
     "
 
-    # mockup
-    #
-    # layout = "
-    #  [ <start | stop ]
-    #  [ donation_info ]
-    #  [ settings ]
-    # "
-    # settings = "
-    #   [ username ]
-    #   [ speed_slider ]
-    # "
-
     @ui = self.build_ui layout
 
     @frame = @ui.build(args: WINDOW_TITLE)
