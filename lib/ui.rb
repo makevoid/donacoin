@@ -99,7 +99,7 @@ class Donacoin::UI
       while true
         prov = Provisioner.new Settings.host
         prov.notify_mining speed: @miner.speed, username: Settings.instance.username, cause: Settings.instance.cause, uid: Settings.instance.uid
-
+        puts "notified #{Settings.host}"
         sleep 5
       end
     }
