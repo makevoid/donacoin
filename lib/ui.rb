@@ -140,8 +140,8 @@ class Donacoin::UI
     unless defined? @dialog
       @dialog = SettingsDialog.new @frame, true
     else
-      @dialog.ui.build args: "Settings"
-      #@dialog.visible = true
+      #@dialog.ui.build args: "Settings"
+      @dialog.frame.visible = true
     end
   end
 
