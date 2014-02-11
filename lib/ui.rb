@@ -136,11 +136,9 @@ class Donacoin::UI
   end
 
   def settings(type, event)
-    #@dialog ||=
     unless defined? @dialog
       @dialog = SettingsDialog.new @frame, true
     else
-      #@dialog.ui.build args: "Settings"
       @dialog.frame.visible = true
     end
   end
