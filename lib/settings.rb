@@ -1,22 +1,22 @@
 class Settings
 
   attr_accessor :username
-  attr_accessor :cause      
-  attr_writer   :threads 
-  
+  attr_accessor :cause
+  attr_writer   :threads
+
   attr_reader   :uid
 
   # application settings
-  @@host = "donacoin.com"   # production 
+  @@host = "donacoin.com"   # production
+  #@@host = "mkvd-32284.euw1.nitrousbox.com" # dev nitrous
   @@host = "localhost:3000" # dev
-  @@host = "mkvd-32284.euw1.nitrousbox.com" # dev nitrous
 
   def self.host
     @@host
   end
-  
+
   # user settings
-  
+
   require 'digest/md5'
   def self.uid
     Digest::MD5.hexdigest(rand 9999999)[0..10]
