@@ -74,6 +74,8 @@ class Utils
   end
 
   def self.tmp_path
-    java.lang.System.getProperty "java.io.tmpdir"        
+    path = java.lang.System.getProperty "java.io.tmpdir"
+    path = "#{path}/" if os == :linux
+    path
   end
 end

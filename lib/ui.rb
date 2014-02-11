@@ -22,6 +22,8 @@ class Donacoin::UI
 
   Thread.abort_on_exception = true
 
+  attr_accessor :dialog
+
   def initialize
     layout = "
      [ start | stop ]
@@ -49,7 +51,7 @@ class Donacoin::UI
     @frame.default_close_operation = JFrame::EXIT_ON_CLOSE
 
     puts "launched ui"
-    
+
     Tray.new @frame
 
     # FIXME > Setups raises error in jar
@@ -69,8 +71,8 @@ class Donacoin::UI
       c.stop  = @stop_btn = JButton.new "Stop"
       @stop_btn.enabled = false
       c.donation_label = @donation_label = JLabel.new "Press Start to begin donating"
-      
-      c.cause_select = @cause_select = JComboBox.new 
+
+      c.cause_select = @cause_select = JComboBox.new
       Cause.all.each do |cause|
         @cause_select.add_item cause
       end
@@ -81,14 +83,14 @@ class Donacoin::UI
       i.start        = { action: method(:start)        }
       i.stop         = { action: method(:stop)         }
       i.cause_select = { action: method(:cause_select) }
-      i.minimize     = { action: method(:minimize)     }      
+      i.minimize     = { action: method(:minimize)     }
       i.settings     = { action: method(:settings)     }
     end
   end
 
   def start(type, event)
     Settings.instance.cause = @cause_select.selected_item
-    @miner = Miner.new 
+    @miner = Miner.new
     @miner.start
 
     @start_btn.enabled = false
@@ -104,12 +106,12 @@ class Donacoin::UI
         sleep 0.5
       end
     }
-    
+
     @notify_thread = Thread.new {
       while true
         prov = Provisioner.new Settings.host
         prov.notify_mining speed: @miner.speed, username: Settings.instance.username, cause: Settings.instance.cause, uid: Settings.instance.uid
-        
+
         sleep 5
       end
     }
@@ -122,11 +124,11 @@ class Donacoin::UI
     @stop_btn.enabled  = false
     @donation_label.text = "Press Start to resume donating"
     @speed_thread.terminate
-    @notify_thread.terminate    
+    @notify_thread.terminate
   end
 
   def cause_select(type, event)
-    Settings.instance.cause = @cause_select.selected_item    
+    Settings.instance.cause = @cause_select.selected_item
   end
 
   def minimize(type, event)

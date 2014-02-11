@@ -4,12 +4,11 @@ class Donacoin::UI
     include_package 'javax.swing'
     include Profligacy
 
-    attr_reader :ui    
+    attr_reader :frame
 
     MAX_THREADS = Utils.max_threads
 
-    def initialize(frame, modal)
-
+    def initialize(frame, modal=true)
       super frame, modal
       layout = "
        [ user_label               ]
@@ -34,8 +33,13 @@ class Donacoin::UI
         i.save            = { action: method(:save)           }
       end
 
-      frame = @ui.build args: "Settings"
-      frame.location_relative_to = nil
+      #raise self.methods.inspect
+      #@save_button.add_action_listener(self)
+
+
+      @frame = @ui.build args: "Settings"
+      @frame.location_relative_to = nil
+      self
     end
 
     def save(type, event)
@@ -43,8 +47,7 @@ class Donacoin::UI
       settings.username = @user_field.text
       settings.threads  = @threads_slider.value
       settings.prefs_save
-      # todo: this doesn't work like .visible = true
-      self.dispose
+      @frame.dispose
     end
 
     def threads_slider(type, event)
