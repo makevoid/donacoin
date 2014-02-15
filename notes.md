@@ -1,3 +1,4 @@
+# Notes
 
     Why:
       You don't spend money!
@@ -39,4 +40,16 @@
       
       
       
+# First layout mockup      
       
+      
+    | DonaCoin: Donate to <RiotVan:target> |
+    | Start | Stop                         |
+    | Slider                               |
+    | Current Donation per hour PTS / Eur  |
+    | Check Temp / Install tools           |
+    
+    | Donations info v                     |
+    | Total Donations: x Eur               |
+    | Your Donation: Total: x Eur          |
+    | top Donors                           |
