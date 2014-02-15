@@ -112,3 +112,10 @@ Layouts:
     https://github.com/makevoid/donacoin
   
   
+%h1 Donacoin core team
+
+Francesco @makevoid Canessa
+Gianpaolo @virtuoid Lopresti
+Filippo @filipporetti Oretti
+
+activity: https://github.com/makevoid/donacoin/pulse/monthly
