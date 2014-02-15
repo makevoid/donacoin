@@ -38,42 +38,7 @@ h1. Run
 h3. Details
 
 
-
-    Why:
-      Profit!
-
-    How:
-      User downloads and install the software and start donate by mining w/ his/her own PC
-      Mining pool software integration into Configurable/Customizable client
-      Coin Client is customized with wallet address
-
-    Tagline:
-      Donate BitCoin/Coin by running this program
-
-    Headlines/Press:
-      why asics miners arent going so far
-      pooled mining changed
-
-    Implementation:
-      First OS: Mac OSX, then Winzozz
-      First Coin to mine: Protoshares
-      
-
-    Profit:
-      We receive donations from Donacoin users
-      Deployed version Wallet manager converts money to donate to ONG/ONLUS/Project, and retains a fee, fee has to be usually lower than 2.9% + 0.30$ (Paypal and others) 
-      
-    Ideas:
-      Monitor the temperature in order to do not burn any cpu
-      try to handle the priority of the task to keep the PC usable during the donation
-
-
-    Implementation tools:
-      Language JRuby
-      VM: JVM
-      GUI: SWing
-      Profligacy: http://ihate.rubyforge.org/profligacy/
-      GUI coolness: http://ihate.rubyforge.org/profligacy/lel.html (thanks zed) 
+see: https://github.com/makevoid/donacoin/blob/bf52a72912dd8283365d345878851575e06dbbd0/notes.md
 
   
 h2. Core team
@@ -87,18 +52,7 @@ activity: https://github.com/makevoid/donacoin/pulse/monthly
 
 h2. misc
 
-First layouts mockup:
-
-    | DonaCoin: Donate to <RiotVan:target> |
-    | Start | Stop                         |
-    | Slider                               |
-    | Current Donation per hour PTS / Eur  |
-    | Check Temp / Install tools           |
-    
-    | Donations info v                     |
-    | Total Donations: x Eur               |
-    | Your Donation: Total: x Eur          |
-    | top Donors                           |
+First layouts mockup: https://github.com/makevoid/donacoin/blob/master/notes.md#first-layout-mockup
 
 h1. Install Donacoin and mine for a cause!
 
