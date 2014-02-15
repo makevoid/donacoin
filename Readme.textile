@@ -38,85 +38,68 @@ h1. Run
 h3. Details
 
 
-Why:
-  Profit!
 
-How:
-  User downloads and install the software and start donate by mining w/ his/her own PC
-  Mining pool software integration into Configurable/Customizable client
-  Coin Client is customized with wallet address
+    Why:
+      Profit!
 
-Tagline:
-  Donate BitCoin/Coin by running this program
+    How:
+      User downloads and install the software and start donate by mining w/ his/her own PC
+      Mining pool software integration into Configurable/Customizable client
+      Coin Client is customized with wallet address
 
-Headlines/Press:
-  why asics miners arent going so far
-  pooled mining changed
+    Tagline:
+      Donate BitCoin/Coin by running this program
 
-Implementation:
-  First OS: Mac OSX, then Winzozz
-  First Coin to mine: Protoshares
-  
+    Headlines/Press:
+      why asics miners arent going so far
+      pooled mining changed
 
-Profit:
-  We receive donations from Donacoin users
-  Deployed version Wallet manager converts money to donate to ONG/ONLUS/Project, and retains a fee, fee has to be usually lower than 2.9% + 0.30$ (Paypal and others) 
-  
-Ideas:
-  Monitor the temperature in order to do not burn any cpu
-  try to handle the priority of the task to keep the PC usable during the donation
+    Implementation:
+      First OS: Mac OSX, then Winzozz
+      First Coin to mine: Protoshares
+      
 
-
-Implementation tools:
-  Language JRuby
-  VM: JVM
-  GUI: SWing
-  Profligacy: http://ihate.rubyforge.org/profligacy/
-  GUI coolness: http://ihate.rubyforge.org/profligacy/lel.html (thanks zed) 
+    Profit:
+      We receive donations from Donacoin users
+      Deployed version Wallet manager converts money to donate to ONG/ONLUS/Project, and retains a fee, fee has to be usually lower than 2.9% + 0.30$ (Paypal and others) 
+      
+    Ideas:
+      Monitor the temperature in order to do not burn any cpu
+      try to handle the priority of the task to keep the PC usable during the donation
 
 
-Layouts:
-   ______________________________________
-  | DonaCoin: Donate to <RiotVan:target> |
-  | Start | Stop                         |
-  | Slider                               |
-  | Current Donation per hour PTS / Eur  |
-  | Check Temp / Install tools           |
+    Implementation tools:
+      Language JRuby
+      VM: JVM
+      GUI: SWing
+      Profligacy: http://ihate.rubyforge.org/profligacy/
+      GUI coolness: http://ihate.rubyforge.org/profligacy/lel.html (thanks zed) 
+
   
-  | Donations info v                     |
-  | Total Donations: x Eur               |
-  | Your Donation: Total: x Eur          |
-  | top Donors                           |
-    
-  
-  first version:
-  
-   ______________________________________
-  | DonaCoin: Donate to <RiotVan:target> |
-  | Some immediate feedback              |
-  | Start | Stop                         |
-  
-  
-  first step: [Bash]
-  
-  binary version
-  
-    
-  
-  
-  compiled version
-  
-  Install dependencies
-  
-  OSX:
-  
-    https://github.com/makevoid/donacoin
-  
-  
-# Donacoin core team
+h2. Core team
 
 - Francesco "@makevoid":http://github.com/makevoid Canessa
 - Gianpaolo "@virtuoid":http://github.com/virtuoid Lopresti
 - Filippo "@filipporetti":http://github.com/filipporetti Oretti
 
 activity: https://github.com/makevoid/donacoin/pulse/monthly
+
+
+h2. misc
+
+First layouts mockup:
+
+    | DonaCoin: Donate to <RiotVan:target> |
+    | Start | Stop                         |
+    | Slider                               |
+    | Current Donation per hour PTS / Eur  |
+    | Check Temp / Install tools           |
+    
+    | Donations info v                     |
+    | Total Donations: x Eur               |
+    | Your Donation: Total: x Eur          |
+    | top Donors                           |
+
+h1. Install Donacoin and mine for a cause!
+
+h1. http://donacoin.com !
