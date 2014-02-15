@@ -1,25 +1,26 @@
-# Donacoin
-### Donacoin is a cryptocoin mining based donation system
+h1. Donacoin
+
+h3. Donacoin is a cryptocoin mining based donation system
 
 Innovative, simple, open source!
 
 Donating without spending money, just run the program and let your computer do the work. Trough cryptocoin mining you will generate some cryptocoins that will be exchanged to USD/EUR and donated to the cause/charity/ngo you selected.
 
-more infos on: <http://donacoin.com>
+more infos on: http://donacoin.com
 
 
-### Install (zip install - easiest, contains both)
+h3. Install (zip install - easiest, contains both)
 
     wget http://uploads.makevoid.com/donacoin.zip
     unzip
 
-or simply download form this link: <http://uploads.makevoid.com/donacoin.zip>
+or simply download form this link: http://uploads.makevoid.com/donacoin.zip
 
 then *run* the *donacoin.jar* file in that folder
 
 
 
-### Install (from source)
+h3. Install (from source)
 
 
 install jruby
@@ -28,13 +29,13 @@ install jruby
     gem i warbler profligacy ftools zip
 
 
-# Run
+h1. Run
 
     ruby bin/donacoin
 
 
 
-### Details
+h3. Details
 
 
 Why:
