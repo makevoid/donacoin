@@ -4,8 +4,31 @@ require 'profligacy/swing'
 require 'profligacy/lel'
 
 class Cause
-  def self.all
-    ["Wikipedia", "Wikileaks", "Riotvan"]
+
+  #TODO: Actually causes are taken by the server. Make them as a Class variable so the client will do one only request and save the whole response in a @@variable
+
+
+  def self.all   
+    url = "http://localhost:3000/service/causes"
+    is = java.net.URL.new(url).openStream
+    isr= java.io.InputStreamReader.new(is, "UTF-8")
+    br = java.io.BufferedReader.new(isr)      
+    str = br.readLine
+    resp = ""
+    while str    
+    resp += str.to_s
+    str = br.readLine
+    end
+    is.close
+    br.close
+    isr.close            
+    respHash = JSON resp
+    causes = []
+    for respS in respHash
+      causes << respS["label"]
+    end
+    causes
+    # ["Wikipedia", "Wikileaks", "Riotvan"]
   end
 end
 
@@ -76,7 +99,7 @@ class Donacoin::UI
     end
   end
 
-  def start(type, event)
+  def start(type, event)    
     Settings.instance.cause = @cause_select.selected_item
     @miner = Miner.new
     @miner.start
