@@ -7,8 +7,10 @@ class Cause
 
   #TODO: Actually causes are taken by the server. Make them as a Class variable so the client will do one only request and save the whole response in a @@variable
 
+  @@causes = []
 
-  def self.all   
+  def self.get_causes
+    puts "getting causes"
     url = "http://localhost:3000/service/causes"
     is = java.net.URL.new(url).openStream
     isr= java.io.InputStreamReader.new(is, "UTF-8")
@@ -29,6 +31,10 @@ class Cause
     end
     causes
     # ["Wikipedia", "Wikileaks", "Riotvan"]
+  end
+
+  def self.all   
+    @@causes = get_causes if @@causes.empty?
   end
 end
 
@@ -121,7 +127,7 @@ class Donacoin::UI
     @notify_thread = Thread.new {
       while true
         prov = Provisioner.new Settings.host
-        prov.notify_mining speed: @miner.speed, username: Settings.instance.username, cause: Settings.instance.cause, uid: Settings.instance.uid
+        prov.notify_mining speed: @miner.speed, donor: Settings.instance.username.downcase, cause: Settings.instance.cause.downcase, uid: Settings.instance.uid
         puts "notified #{Settings.host}"
         sleep 5
       end

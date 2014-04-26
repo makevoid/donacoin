@@ -32,6 +32,7 @@ class Miner
     end
 
     cmd = "#{cmd} #{@@pool}"
+    puts "#{cmd} -t #{Settings.instance.threads}"
     "#{cmd} -t #{Settings.instance.threads}"
   end
 
