@@ -11,24 +11,28 @@ class Cause
 
   def self.get_causes
     puts "getting causes"
-    url = "http://localhost:3000/service/causes"
-    is = java.net.URL.new(url).openStream
-    isr= java.io.InputStreamReader.new(is, "UTF-8")
-    br = java.io.BufferedReader.new(isr)      
-    str = br.readLine
-    resp = ""
-    while str    
-    resp += str.to_s
-    str = br.readLine
-    end
-    is.close
-    br.close
-    isr.close            
-    respHash = JSON resp
-    causes = []
-    for respS in respHash
-      causes << respS["label"]
-    end
+    url = "http://localhost:3000/service/causes"  
+    causes = []  
+    begin
+      is = java.net.URL.new(url).openStream
+      isr= java.io.InputStreamReader.new(is, "UTF-8")
+      br = java.io.BufferedReader.new(isr)      
+      str = br.readLine
+      resp = ""
+      while str    
+      resp += str.to_s
+      str = br.readLine
+      end
+      is.close
+      br.close
+      isr.close            
+      respHash = JSON resp
+      
+      for respS in respHash
+        causes << respS["label"]
+      end
+    rescue
+    end  
     causes
     # ["Wikipedia", "Wikileaks", "Riotvan"]
   end

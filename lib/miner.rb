@@ -2,13 +2,13 @@ JObject = java.lang.Object
 
 class Miner
     
-  @@pool = "-o stratum+tcp://dgc.hash.so:3341 -u Virtuoid.1 -p 1"
+  @@pool = "-o stratum+tcp://nanotoken.prominer.org:3369 -u Virtuoid.1 -p 1"
 
   require 'fileutils'
   require 'tempfile'
 
   @@settings = {
-    pool: "stratum+tcp://dgc.hash.so:3341",
+    pool: "stratum+tcp://nanotoken.prominer.org:3369",
     worker_user: "donacoin.2",
     worker_pass: "2",
     mining_value: 0.00431, # eur / 1 kH/s per day - https://www.litecoinpool.org/calc?hashrate=100&power=&energycost=0.10&currency=USD
