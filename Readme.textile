@@ -2,9 +2,14 @@ h1. Donacoin
 
 h3. Donacoin is a cryptocoin mining based donation system
 
+CURRENT PROJECT STATUS: alpha, proof of concept
+
 Innovative, simple, open source!
 
 Donating without spending money, just run the program and let your computer do the work. Trough cryptocoin mining you will generate some cryptocoins that will be exchanged to USD/EUR and donated to the cause/charity/ngo you selected.
+
+
+!http://uploads.makevoid.com/donacoin_home.png!:http://donacoin.com
 
 more infos on: http://donacoin.com
 
