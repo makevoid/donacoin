@@ -62,3 +62,6 @@ First layouts mockup: https://github.com/makevoid/donacoin/blob/master/notes.md#
 h1. Install Donacoin and mine for a cause!
 
 h1. http://donacoin.com !
+
+
+up - #btc_timestamp_2015_07
